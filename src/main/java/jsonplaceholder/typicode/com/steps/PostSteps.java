@@ -28,4 +28,6 @@ public class PostSteps extends BaseSteps {
                 .when()
                 .get(API_URL + POSTS_URL + "?" + parameter + "=" + value);
     }
+
+    //TODO filtering by more parameters
 }

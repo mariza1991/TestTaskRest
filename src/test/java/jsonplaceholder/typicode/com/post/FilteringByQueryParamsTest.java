@@ -99,6 +99,7 @@ public class FilteringByQueryParamsTest extends BaseTest {
                 .body()
                 .jsonPath()
                 .getString("title");
+
         assertThat(title, equalTo("[" + "]"));
 
         String userId = postSteps.filterByParameter("userId", "123")

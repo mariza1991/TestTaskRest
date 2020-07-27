@@ -44,15 +44,10 @@ public class GetByIdTest extends BaseTest {
     }
 
     @Test (groups = {"regression", "smoke"}, dataProvider = "testDataId")
-    public void getSourceByNotExistantId(String id, String value) {
-        String idValue = postSteps.filterByParameter(id, value)
+    public void getSourceByNotExistantId(String value) {
+        postSteps.getResourceById(value)
                 .then()
-                .spec(postSteps.checkResponseStructure())
-                .extract()
-                .body()
-                .jsonPath()
-                .getString("id");
-        assertThat(idValue, equalTo("[" + "]"));
+                .spec(postSteps.checkInvalidResponseStructure());
     }
 
     @DataProvider
@@ -61,6 +56,7 @@ public class GetByIdTest extends BaseTest {
                 {"id", null},
                 {"id", "-20"},
                 {"id", "22222"},
+                {"id", "fggrgrbrr"},
         };
     }
 }
