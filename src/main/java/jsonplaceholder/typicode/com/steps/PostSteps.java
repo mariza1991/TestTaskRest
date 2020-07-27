@@ -2,6 +2,9 @@ package jsonplaceholder.typicode.com.steps;
 
 import io.restassured.response.Response;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
 
 public class PostSteps extends BaseSteps {
@@ -29,5 +32,15 @@ public class PostSteps extends BaseSteps {
                 .get(API_URL + POSTS_URL + "?" + parameter + "=" + value);
     }
 
-    //TODO filtering by more parameters
+    //filtering by more parameters
+    public Response filterByFewParameter(HashMap<String, String> params) {
+        String request = "";
+        for (Map.Entry entry : params.entrySet()) {
+            request = request + entry.getKey() + "=" + entry.getValue() + "&";
+        }
+
+        return given()
+                .when()
+                .get(API_URL + POSTS_URL + "?" + request.replaceAll(".$", ""));
+    }
 }

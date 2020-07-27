@@ -4,6 +4,8 @@ import io.restassured.path.json.JsonPath;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -28,6 +30,22 @@ public class FilteringByQueryParamsTest extends BaseTest {
 
             assertThat(response.getList("userId").size(), equalTo(10));
         }
+    }
+
+    @Test (groups = {"regression", "smoke"})
+    public void filterByFewParamsTest() {
+        HashMap testData = new HashMap();
+        testData.put("id", "10");
+        testData.put("userId", "1");
+        JsonPath response = postSteps.filterByFewParameter(testData)
+                .then()
+                .extract()
+                .body()
+                .jsonPath();
+        System.out.println(response);
+        assertThat(response.getList("userId").size(), equalTo(1));
+        assertThat(response.getString("userId"), equalTo("[" + testData.get("userId") + "]"));
+        assertThat(response.getString("id"), equalTo("[" + testData.get("id") + "]"));
     }
 
     @Test (groups = {"smoke"})
